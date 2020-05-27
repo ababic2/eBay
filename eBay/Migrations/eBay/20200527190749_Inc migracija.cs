@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace eBay.Migrations
+namespace eBay.Migrations.EBay
 {
-    public partial class InicijalnaMigracija : Migration
+    public partial class Incmigracija : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,9 +12,9 @@ namespace eBay.Migrations
                 {
                     ProizvodId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Naziv = table.Column<string>(nullable: true),
-                    OpisProizvoda = table.Column<string>(nullable: true),
-                    Cijena = table.Column<decimal>(nullable: false)
+                    Naziv = table.Column<string>(nullable: false),
+                    OpisProizvoda = table.Column<string>(nullable: false),
+                    Cijena = table.Column<decimal>(type: "decimal(5, 2)", nullable: false)
                 },
                 constraints: table =>
                 {

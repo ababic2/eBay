@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace eBay.Migrations.eBay
+namespace eBay.Migrations
 {
-    public partial class eBayUser : Migration
+    public partial class Incmigracija : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,7 +39,11 @@ namespace eBay.Migrations.eBay
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Ime = table.Column<string>(nullable: true),
+                    Prezime = table.Column<string>(nullable: true),
+                    Adresa = table.Column<string>(nullable: true),
+                    DatumRodjenja = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

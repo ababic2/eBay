@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using eBay.Areas.Identity.Data;
@@ -34,8 +35,26 @@ namespace eBay.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Broj telefona")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "Ime")]
+            [DataType(DataType.Text)]
+            public string Ime { get; set; }
+
+            [Display(Name = "Prezime")]
+            [DataType(DataType.Text)]
+            public string Prezime { get; set; }
+            [Display(Name = "Adresa")]
+            [DataType(DataType.Text)]
+            public string Adresa { get; set; }
+
+            //[Display(Name = "Recenzija")]
+            //[Column(TypeName = "decimal(5, 2)")]
+            //public decimal Recenzija { get; set; }
+            [Display(Name = "Datum Rodjenja")]
+            [DataType(DataType.Date)]
+            public DateTime DatumRodjenja { get; set; }
+
         }
 
         private async Task LoadAsync(eBayUser user)
@@ -47,6 +66,10 @@ namespace eBay.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                Ime = user.Ime,
+                Prezime = user.Prezime,
+                DatumRodjenja = user.DatumRodjenja,
+                Adresa = user.Adresa,
                 PhoneNumber = phoneNumber
             };
         }
@@ -87,6 +110,23 @@ namespace eBay.Areas.Identity.Pages.Account.Manage
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
+            if (Input.Ime != user.Ime)
+            {
+                user.Ime = Input.Ime;
+            }
+            if (Input.Prezime != user.Prezime)
+            {
+                user.Prezime = Input.Prezime;
+            }
+            if (Input.Adresa != user.Adresa)
+            {
+                user.Adresa = Input.Adresa;
+            }
+            if (Input.DatumRodjenja != user.DatumRodjenja)
+            {
+                user.DatumRodjenja = Input.DatumRodjenja;
+            }
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

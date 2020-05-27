@@ -46,6 +46,27 @@ namespace eBay.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Phone]
+            [Display(Name = "Broj telefona")]
+            public string PhoneNumber { get; set; }
+            [Display(Name = "Ime")]
+            [DataType(DataType.Text)]
+            public string Ime { get; set; }
+
+            [Display(Name = "Prezime")]
+            [DataType(DataType.Text)]
+            public string Prezime { get; set; }
+            [Display(Name = "Adresa")]
+            [DataType(DataType.Text)]
+            public string Adresa { get; set; }
+
+            //[Display(Name = "Recenzija")]
+            //[Column(TypeName = "decimal(5, 2)")]
+            //public decimal Recenzija { get; set; }
+            [Display(Name = "Datum Rodjenja")]
+            [DataType(DataType.Date)]
+            public DateTime DatumRodjenja { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -75,7 +96,8 @@ namespace eBay.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new eBayUser { UserName = Input.Email, Email = Input.Email };
+                var user = new eBayUser { UserName = Input.Email, Email = Input.Email, Ime = Input.Ime, 
+                    Prezime = Input.Prezime, Adresa = Input.Adresa, DatumRodjenja = Input.DatumRodjenja, PhoneNumber = Input.PhoneNumber };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

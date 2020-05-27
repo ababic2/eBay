@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eBay.Models;
 
-namespace eBay.Migrations
+namespace eBay.Migrations.EBay
 {
     [DbContext(typeof(EBayContext))]
-    [Migration("20200518202426_Dodavanje validacije")]
-    partial class Dodavanjevalidacije
+    [Migration("20200527190749_Inc migracija")]
+    partial class Incmigracija
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
