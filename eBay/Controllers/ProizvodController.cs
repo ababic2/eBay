@@ -53,7 +53,7 @@ namespace eBay.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Naziv,OpisProizvoda,Cijena")] Proizvod proizvod)
+        public async Task<IActionResult> Create([Bind("Naziv,OpisProizvoda,Cijena,URLSlike")] Proizvod proizvod)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace eBay.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Naziv,OpisProizvoda,Cijena")] Proizvod proizvod)
+        public async Task<IActionResult> Edit(int id, [Bind("Naziv,OpisProizvoda,Cijena,URLSlike")] Proizvod proizvod)
         {
             if (id != proizvod.ProizvodId)
             {

@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.URLSlike)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Naziv)
             </th>
             <th>
@@ -27,16 +30,19 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td style = "width: 50px; height: auto">
+                <img style="width: 100%; height: auto" src="@Html.DisplayFor(modelItem  => item.URLSlike)" alt="slika" />
+            </td>
+            <td style = "vertical-align: middle;">
                 @Html.DisplayFor(modelItem => item.Naziv)
             </td>
-            <td>
+            <td style="vertical-align:middle">
                 @Html.DisplayFor(modelItem => item.OpisProizvoda)
             </td>
-            <td>
+            <td style="vertical-align:middle">
                 @Html.DisplayFor(modelItem => item.Cijena)
             </td>
-            <td>
+            <td style="vertical-align:middle">
                 <a asp-action="Edit" asp-route-id="@item.ProizvodId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ProizvodId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ProizvodId">Delete</a>

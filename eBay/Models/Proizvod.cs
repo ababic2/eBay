@@ -14,9 +14,14 @@ namespace eBay.Models
         [Required]
         public String Naziv { get; set; }
         [Required]
+        [Display(Name ="Opis proizvoda")]
         public String OpisProizvoda { get; set; }
         
         [Column(TypeName = "decimal(5, 2)")] // Tip kakav ce bit u bazi. Mora se staviti preciznost. Inace se prikazuje warning
         public decimal Cijena { get; set; }
+
+        [Required]
+        [Display(Name = "Slika")]
+        public String URLSlike { get; set; }
     }
 }
