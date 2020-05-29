@@ -10,8 +10,8 @@ using eBay.Data;
 namespace eBay.Migrations
 {
     [DbContext(typeof(eBayContext))]
-    [Migration("20200527190638_Inc migracija")]
-    partial class Incmigracija
+    [Migration("20200529194337_Tip korisnika")]
+    partial class Tipkorisnika
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -174,6 +174,10 @@ namespace eBay.Migrations
                     b.Property<DateTime>("DatumRodjenja")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -231,6 +235,25 @@ namespace eBay.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("eBayUser");
+                });
+
+            modelBuilder.Entity("eBay.Models.Korisnici.Kupac", b =>
+                {
+                    b.HasBaseType("eBay.Areas.Identity.Data.eBayUser");
+
+                    b.HasDiscriminator().HasValue("Kupac");
+                });
+
+            modelBuilder.Entity("eBay.Models.Korisnici.Prodavac", b =>
+                {
+                    b.HasBaseType("eBay.Areas.Identity.Data.eBayUser");
+
+                    b.Property<decimal>("Recenzija")
+                        .HasColumnType("decimal(5, 2)");
+
+                    b.HasDiscriminator().HasValue("Prodavac");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

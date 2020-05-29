@@ -9,8 +9,8 @@ using eBay.Models;
 namespace eBay.Migrations.EBay
 {
     [DbContext(typeof(EBayContext))]
-    [Migration("20200527202404_DodanaSlika")]
-    partial class DodanaSlika
+    [Migration("20200529200407_podaci")]
+    partial class podaci
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

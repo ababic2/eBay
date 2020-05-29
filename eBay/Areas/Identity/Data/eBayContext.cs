@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eBay.Areas.Identity.Data;
+using eBay.Models.Korisnici;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,11 @@ namespace eBay.Data
             : base(options)
         {
         }
+
+        //public DbSet<eBayUser> eBayUsers { get; set; }
+        public DbSet<Kupac> Kupci { get; set; }
+        public DbSet<Prodavac> Prodavaci { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

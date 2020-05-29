@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using eBay.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eBay.Controllers
 {
@@ -43,6 +44,7 @@ namespace eBay.Controllers
         }
 
         // GET: Proizvod/Create
+        [Authorize(Roles = "Prodavac")]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +55,7 @@ namespace eBay.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Prodavac")]
         public async Task<IActionResult> Create([Bind("Naziv,OpisProizvoda,Cijena,URLSlike")] Proizvod proizvod)
         {
             if (ModelState.IsValid)

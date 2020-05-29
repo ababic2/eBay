@@ -1,6 +1,7 @@
 ﻿using System;
 using eBay.Areas.Identity.Data;
 using eBay.Data;
+using eBay.Models.Korisnici;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -15,14 +16,16 @@ namespace eBay.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
-                services.AddDbContext<eBayContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("eBayContextConnection")));
+            //builder.ConfigureServices((context, services) => {
+            //    services.AddDbContext<eBayContext>(options =>
+            //        options.UseSqlServer(
+            //            context.Configuration.GetConnectionString("eBayContextConnection")));
 
-                services.AddDefaultIdentity<eBayUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<eBayContext>();
-            });
+            //    services.AddDefaultIdentity<eBayUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //        .AddRoles<Prodavac>()
+            //        .AddRoles<Kupac>()
+            //        .AddEntityFrameworkStores<eBayContext>();
+            //});
         }
     }
 }

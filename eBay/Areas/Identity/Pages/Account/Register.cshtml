@@ -52,6 +52,18 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Input.TipKorisnika"></label>
+                <br />
+                @foreach (var tip  in Model.Tipovi)
+                {
+                    <div class="d-block" style="padding-left:5%">
+                        <input type="radio" asp-for="Input.TipKorisnika" value="@tip" />&nbsp; @tip<br />
+                    </div>
+                }
+
+                    <span asp-validation-for="Input.TipKorisnika" class="text-danger"></span>
+                </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>

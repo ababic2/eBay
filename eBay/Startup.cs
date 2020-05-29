@@ -35,12 +35,15 @@ namespace eBay
             services.AddDbContext<EBayContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("eBayContextConnection")));
-            //services.AddDbContext<eBayContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("Baza")));
 
-            //services.AddDefaultIdentity<eBayUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<eBayContext>();
+            services.AddDbContext<eBayContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("eBayContextConnection")));
+
+            services.AddDefaultIdentity<eBayUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<eBayContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

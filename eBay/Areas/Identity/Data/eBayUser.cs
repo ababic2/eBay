@@ -15,10 +15,7 @@ namespace eBay.Areas.Identity.Data
         [PersonalData]
         public string Prezime { get; set; }
         [PersonalData]
-        public string Adresa { get; set; }
-        //[PersonalData]
-        //[Column(TypeName = "decimal(5, 2)")]
-        //public decimal Recenzija { get; set; }    
+        public string Adresa { get; set; }    
         [PersonalData]
         public DateTime DatumRodjenja { get; set; }
     }

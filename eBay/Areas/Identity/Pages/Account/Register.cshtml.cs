@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using eBay.Models.Korisnici;
 
 namespace eBay.Areas.Identity.Pages.Account
 {
@@ -60,9 +61,6 @@ namespace eBay.Areas.Identity.Pages.Account
             [DataType(DataType.Text)]
             public string Adresa { get; set; }
 
-            //[Display(Name = "Recenzija")]
-            //[Column(TypeName = "decimal(5, 2)")]
-            //public decimal Recenzija { get; set; }
             [Display(Name = "Datum Rodjenja")]
             [DataType(DataType.Date)]
             public DateTime DatumRodjenja { get; set; }
@@ -82,7 +80,12 @@ namespace eBay.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            [Display(Name = "Tip korisnika")]
+            [DataType(DataType.Text)]
+            [Required]
+            public string TipKorisnika { get; set; }
         }
+        public string[] Tipovi = { "Kupac", "Prodavac" };
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -96,9 +99,38 @@ namespace eBay.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new eBayUser { UserName = Input.Email, Email = Input.Email, Ime = Input.Ime, 
-                    Prezime = Input.Prezime, Adresa = Input.Adresa, DatumRodjenja = Input.DatumRodjenja, PhoneNumber = Input.PhoneNumber };
+                eBayUser korisnik = null;
+                if(Input.TipKorisnika.Equals("Kupac"))
+                {
+                    korisnik = new Kupac
+                    {
+                        UserName = Input.Email,
+                        Email = Input.Email,
+                        Ime = Input.Ime,
+                        Prezime = Input.Prezime,
+                        Adresa = Input.Adresa,
+                        DatumRodjenja = Input.DatumRodjenja,
+                        PhoneNumber = Input.PhoneNumber
+                    };
+                }
+                else if (Input.TipKorisnika.Equals("Prodavac"))
+                {
+                    korisnik = new Prodavac
+                    {
+                        UserName = Input.Email,
+                        Email = Input.Email,
+                        Ime = Input.Ime,
+                        Prezime = Input.Prezime,
+                        Adresa = Input.Adresa,
+                        DatumRodjenja = Input.DatumRodjenja,
+                        PhoneNumber = Input.PhoneNumber,
+                        Recenzija = 0
+                    };
+                }
+
+                var user = korisnik;
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userManager.AddToRoleAsync(user, Input.TipKorisnika);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

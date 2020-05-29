@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace eBay.Migrations
 {
-    public partial class Incmigracija : Migration
+    public partial class Tipkorisnika : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +43,9 @@ namespace eBay.Migrations
                     Ime = table.Column<string>(nullable: true),
                     Prezime = table.Column<string>(nullable: true),
                     Adresa = table.Column<string>(nullable: true),
-                    DatumRodjenja = table.Column<DateTime>(nullable: false)
+                    DatumRodjenja = table.Column<DateTime>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    Recenzija = table.Column<decimal>(type: "decimal(5, 2)", nullable: true)
                 },
                 constraints: table =>
                 {

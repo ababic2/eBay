@@ -2,7 +2,7 @@
 
 namespace eBay.Migrations.EBay
 {
-    public partial class Incmigracija : Migration
+    public partial class podaci : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,8 @@ namespace eBay.Migrations.EBay
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Naziv = table.Column<string>(nullable: false),
                     OpisProizvoda = table.Column<string>(nullable: false),
-                    Cijena = table.Column<decimal>(type: "decimal(5, 2)", nullable: false)
+                    Cijena = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
+                    URLSlike = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
