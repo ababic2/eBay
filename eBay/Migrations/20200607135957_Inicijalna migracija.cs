@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace eBay.Data.Migrations
+namespace eBay.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class Inicijalnamigracija : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,7 +39,13 @@ namespace eBay.Data.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Ime = table.Column<string>(nullable: true),
+                    Prezime = table.Column<string>(nullable: true),
+                    Adresa = table.Column<string>(nullable: true),
+                    DatumRodjenja = table.Column<DateTime>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    Recenzija = table.Column<decimal>(type: "decimal(5, 2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,11 +53,24 @@ namespace eBay.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Kategorija",
+                columns: table => new
+                {
+                    KategorijaId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naziv = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kategorija", x => x.KategorijaId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +91,7 @@ namespace eBay.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -153,6 +171,38 @@ namespace eBay.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Proizvod",
+                columns: table => new
+                {
+                    ProizvodId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Naziv = table.Column<string>(nullable: false),
+                    OpisProizvoda = table.Column<string>(nullable: false),
+                    Cijena = table.Column<decimal>(type: "decimal(5, 2)", nullable: false),
+                    URLSlike = table.Column<string>(nullable: false),
+                    KategorijaId = table.Column<int>(nullable: false),
+                    ProdavacId = table.Column<int>(nullable: false),
+                    ProdavacId1 = table.Column<string>(nullable: true),
+                    Kolicina = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Proizvod", x => x.ProizvodId);
+                    table.ForeignKey(
+                        name: "FK_Proizvod_Kategorija_KategorijaId",
+                        column: x => x.KategorijaId,
+                        principalTable: "Kategorija",
+                        principalColumn: "KategorijaId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Proizvod_AspNetUsers_ProdavacId1",
+                        column: x => x.ProdavacId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +241,30 @@ namespace eBay.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Proizvod_KategorijaId",
+                table: "Proizvod",
+                column: "KategorijaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Proizvod_ProdavacId1",
+                table: "Proizvod",
+                column: "ProdavacId1");
+            // Dodavanje rola u bazu, potrebno za normalno funkcionisanje registracije i logina
+            migrationBuilder.InsertData(
+                        "AspNetRoles",
+                        new string[] { "Id", "Name", "NormalizedName", "ConcurrencyStamp" },
+                        new object[] { "1", "Prodavac", "PRODAVAC", null });
+            migrationBuilder.InsertData(
+                "AspNetRoles",
+                new string[] { "Id", "Name", "NormalizedName", "ConcurrencyStamp" },
+                new object[] { "2", "Kupac", "KUPAC", null });
+            // dodavanje inicijalne kategorije
+            migrationBuilder.InsertData(
+                "Kategorija",
+                new string[] { "KategorijaId", "Naziv" },
+                new object[] { "1", "All" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,7 +285,13 @@ namespace eBay.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Proizvod");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Kategorija");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

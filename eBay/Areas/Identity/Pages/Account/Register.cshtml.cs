@@ -130,9 +130,9 @@ namespace eBay.Areas.Identity.Pages.Account
 
                 var user = korisnik;
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                await _userManager.AddToRoleAsync(user, Input.TipKorisnika);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, Input.TipKorisnika);
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
